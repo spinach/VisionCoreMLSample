@@ -13,6 +13,7 @@
 		88C6A9C81EF863CC00CC4360 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C6A9C61EF863CC00CC4360 /* Main.storyboard */; };
 		88C6A9CA1EF863CC00CC4360 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88C6A9C91EF863CC00CC4360 /* Assets.xcassets */; };
 		88C6A9CD1EF863CC00CC4360 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88C6A9CB1EF863CC00CC4360 /* LaunchScreen.storyboard */; };
+		E20DA9931FB0988C0046C29E /* Food101.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E20DA9921FB0988C0046C29E /* Food101.mlmodel */; };
 		E26709491FB06DD600873AD9 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E26709481FB06DD500873AD9 /* Resnet50.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		88C6A9CE1EF863CC00CC4360 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B039557CDACE6B49F1181DFF /* Pods-VisionSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisionSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-VisionSample/Pods-VisionSample.release.xcconfig"; sourceTree = "<group>"; };
 		CA266EFC46710FD728E3A4B9 /* Pods_VisionSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VisionSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E20DA9921FB0988C0046C29E /* Food101.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Food101.mlmodel; sourceTree = "<group>"; };
 		E26709481FB06DD500873AD9 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +55,7 @@
 		88C6A9B61EF863CB00CC4360 = {
 			isa = PBXGroup;
 			children = (
+				E20DA9921FB0988C0046C29E /* Food101.mlmodel */,
 				E26709481FB06DD500873AD9 /* Resnet50.mlmodel */,
 				88C6A9C11EF863CC00CC4360 /* VisionSample */,
 				88C6A9C01EF863CC00CC4360 /* Products */,
@@ -224,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88C6A9C51EF863CC00CC4360 /* ViewController.swift in Sources */,
+				E20DA9931FB0988C0046C29E /* Food101.mlmodel in Sources */,
 				E26709491FB06DD600873AD9 /* Resnet50.mlmodel in Sources */,
 				88C6A9C31EF863CC00CC4360 /* AppDelegate.swift in Sources */,
 			);

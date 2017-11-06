@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import Vision
 import InstantSearch
+import InstantSearchCore
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, HitsTableViewDataSource {
   // video capture session
@@ -23,6 +24,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
   // vision request
   var visionRequests = [VNRequest]()
     
+    var searchParameters: SearchParameters = SearchParameters()
+    
     
     var recognitionThreshold : Float = 0.25
   
@@ -31,7 +34,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     @IBOutlet weak var threshholdSlider: UISlider!
     @IBOutlet weak var hitsTableView: HitsTableWidget!
     @IBOutlet weak var previewView: UIView!
-  @IBOutlet weak var resultView: UILabel!
+    @IBOutlet weak var resultView: UILabel!
     
     var hitsController: HitsController!
   
@@ -85,7 +88,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
       session.startRunning()
       
       // set up the vision model
-      guard let resNet50Model = try? VNCoreMLModel(for: Resnet50().model) else {
+      guard let resNet50Model = try? VNCoreMLModel(for: Food101().model) else {
         fatalError("Could not load model")
       }
       // set up the request using our vision model
@@ -173,11 +176,30 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
       return
     }
     
+    let bla = observations[0...4] // top 4 results
+        .flatMap({ $0 as? VNClassificationObservation })
+        .flatMap({$0.confidence > recognitionThreshold ? $0 : nil})
+    
     let classifications = observations[0...4] // top 4 results
         .flatMap({ $0 as? VNClassificationObservation })
         .flatMap({$0.confidence > recognitionThreshold ? $0 : nil})
       .map({ "\($0.identifier) \(String(format:"%.2f", $0.confidence))" })
         .joined(separator: "\n")
+    
+    let filters = observations[0...4] // top 4 results
+        .flatMap({ $0 as? VNClassificationObservation })
+        .flatMap({$0.confidence > recognitionThreshold ? $0 : nil})
+        .map({$0.identifier})
+    
+    
+    
+    if !filters.isEmpty {
+        if filters.first != self.searchParameters.query {
+            self.searchParameters.query = filters.first
+            InstantSearch.shared.params.query = self.searchParameters.query
+            InstantSearch.shared.searcher.search()
+        }
+    }
     
     DispatchQueue.main.async {
         self.resultView.text = classifications
