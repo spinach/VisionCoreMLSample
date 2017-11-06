@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import InstantSearch
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    InstantSearch.shared.configure(appID: "latency", apiKey: "553f6271f6ac96772d71f84d06d29284", index: "bestbuy_promo")
     return true
   }
 

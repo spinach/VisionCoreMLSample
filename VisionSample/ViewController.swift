@@ -9,8 +9,9 @@
 import UIKit
 import AVFoundation
 import Vision
+import InstantSearch
 
-class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, HitsTableViewDataSource {
   // video capture session
   let session = AVCaptureSession()
   // preview layer
@@ -22,14 +23,17 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
   // vision request
   var visionRequests = [VNRequest]()
     
+    
     var recognitionThreshold : Float = 0.25
   
     @IBOutlet weak var thresholdStackView: UIStackView!
     @IBOutlet weak var threshholdLabel: UILabel!
     @IBOutlet weak var threshholdSlider: UISlider!
-    
+    @IBOutlet weak var hitsTableView: HitsTableWidget!
     @IBOutlet weak var previewView: UIView!
   @IBOutlet weak var resultView: UILabel!
+    
+    var hitsController: HitsController!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,6 +42,16 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
       fatalError("No video camera available")
     }
     do {
+        hitsController = HitsController(table: hitsTableView)
+        hitsTableView.dataSource = hitsController
+        hitsTableView.delegate = hitsController
+        hitsController.tableDataSource = self
+        //hitsTableView.backgroundColor = UIColor.white
+        self.view.bringSubview(toFront: hitsTableView)
+        InstantSearch.shared.registerAllWidgets(in: self.view)
+        InstantSearch.shared.searcher.params.query = ""
+        InstantSearch.shared.searcher.search()
+        
       // add the preview layer
       previewLayer = AVCaptureVideoPreviewLayer(session: session)
       previewView.layer.addSublayer(previewLayer)
@@ -84,6 +98,15 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     updateThreshholdLabel()
   }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, containing hit: [String: Any]) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "hitsCell", for: indexPath)
+        
+        cell.textLabel?.text = hit["name"] as? String
+        //cell.detailTextLabel?.text = String(count)
+        
+        return cell
+    }
     
     func updateThreshholdLabel () {
         self.threshholdLabel.text = "Threshold: " + String(format: "%.2f", recognitionThreshold)
