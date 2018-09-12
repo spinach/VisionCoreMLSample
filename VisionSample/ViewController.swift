@@ -30,8 +30,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var recognitionThreshold : Float = 0.25
   
     @IBOutlet weak var thresholdStackView: UIStackView!
-    @IBOutlet weak var threshholdLabel: UILabel!
-    @IBOutlet weak var threshholdSlider: UISlider!
+    //@IBOutlet weak var threshholdLabel: UILabel!
+    //@IBOutlet weak var threshholdSlider: UISlider!
     @IBOutlet weak var hitsTableView: HitsTableWidget!
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var resultView: UILabel!
@@ -88,7 +88,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
       session.startRunning()
       
       // set up the vision model
-      guard let resNet50Model = try? VNCoreMLModel(for: Food101().model) else {
+      guard let resNet50Model = try? VNCoreMLModel(for: Resnet50().model) else {
         fatalError("Could not load model")
       }
       // set up the request using our vision model
@@ -106,13 +106,14 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         let cell = tableView.dequeueReusableCell(withIdentifier: "hitsCell", for: indexPath)
         
         cell.textLabel?.text = hit["name"] as? String
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
         //cell.detailTextLabel?.text = String(count)
         
         return cell
     }
     
     func updateThreshholdLabel () {
-        self.threshholdLabel.text = "Threshold: " + String(format: "%.2f", recognitionThreshold)
+        //self.threshholdLabel.text = "Threshold: " + String(format: "%.2f", recognitionThreshold)
     }
     
   override func viewDidLayoutSubviews() {
